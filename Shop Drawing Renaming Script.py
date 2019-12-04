@@ -1,14 +1,12 @@
 import os
-import csv
+import pandas as pd
 
-with open('test.csv','r') as csv_file:
-    csv_reader = csv.reader(csv_file)
 
-    #Make the reader skip the line 0
-    next(csv_reader)
+input_path = r'C:\Users\Chris.Wodzinski\Desktop\test\\'
+output_path = r'C:\Users\Chris.Wodzinski\Desktop\test\output\\'
+
+df = pd.read_csv('test.csv')
     
-
-    #For all lines 1+, rename the intial file to the issue, revision & status given in text.csv
-    for line in csv_reader:
-        os.rename(r"C:\Users\chris.wodzinski\Desktop\test\\"+line[0]+".pdf",r"C:\Users\chris.wodzinski\Desktop\test\C03-KEL-01A-13-DRG-ST-"+line[0]+"_iss"+line[1]+"_rev"+line[2]+" RBG STATUS "+line[3]+".pdf")
-        
+for i in df.index: 
+    os.rename(input_path + '{}.pdf'.format(df['Name'].iloc[i]),
+              output_path + 'C03-KEL-01A-13-DRG-ST_{}_{}_{}_rev{}.pdf'.format(df['Name'].iloc[i], df['Iss'].iloc[i], df['Rev'].iloc[i], df['Status'].iloc[i]))
